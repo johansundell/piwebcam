@@ -5,15 +5,14 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"os/exec"
 )
 
 func main() {
-	cmd := exec.Command("mjpg_streamer", "-o 'output_http.so -w /home/johan/src/mjpg-streamer/mjpg-streamer-experimental/www'", "-i 'input_raspicam.so  -ex -hf -vf night'")
+	/*cmd := exec.Command("mjpg_streamer", "-o 'output_http.so -w /home/johan/src/mjpg-streamer/mjpg-streamer-experimental/www'", "-i 'input_raspicam.so  -ex -hf -vf night'")
 	err := cmd.Start()
 	if err != nil {
 		log.Fatal(err)
-	}
+	}*/
 
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme:   "http",
@@ -21,5 +20,5 @@ func main() {
 		Path:     "/",
 		RawQuery: "action=stream",
 	})
-	http.ListenAndServe(":80", proxy)
+	log.Fatal(http.ListenAndServe(":80", proxy))
 }
